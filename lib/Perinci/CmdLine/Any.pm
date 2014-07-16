@@ -9,7 +9,7 @@ use warnings;
 
 our @ISA;
 
-eval { require Perinci::CmdLine; Perinci::CmdLine->VERSION(1.04) };
+eval { require Perinci::CmdLine; Perinci::CmdLine->VERSION(1.17) };
 if ($@) {
     require Perinci::CmdLine::Lite;
     @ISA = qw(Perinci::CmdLine::Lite);
