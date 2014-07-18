@@ -21,6 +21,8 @@ sub new {
 1;
 # ABSTRACT: Use Perinci::CmdLine, fallback on Perinci::CmdLine::Lite
 
+=for Pod::Coverage ^(new)$
+
 =head1 SYNOPSIS
 
  In your command-line script:
