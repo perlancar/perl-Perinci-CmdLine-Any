@@ -1,5 +1,10 @@
 Revision history for Perinci-CmdLine-Any
 
+0.04     2014-07-18 (SHARYANTO)
+
+         - Introduce PERINCI_CMDLINE_ANY to let you override class to use.
+
+
 0.03     2014-07-18 (SHARYANTO)
 
          - Instead of subclassing (which is problematic in Perinci::CmdLine due
