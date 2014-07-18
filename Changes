@@ -4,7 +4,8 @@ Revision history for Perinci-CmdLine-Any
 
          - Instead of subclassing (which is problematic in Perinci::CmdLine due
            to color theme role searching in <CLASS>::ColorTheme::*), create a
-           new() proxy instead.
+           new() proxy instead. But subclassing should be okay once
+           SHARYANTO::Role::ColorTheme searches superclasses too.
 
 
 0.02     2014-07-16 (SHARYANTO)
