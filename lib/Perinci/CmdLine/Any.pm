@@ -1,20 +1,21 @@
 package Perinci::CmdLine::Any;
 
+# DATE
+# VERSION
+
 use 5.010001;
 use strict;
 use warnings;
 
-# DATE
-# VERSION
-
-our @ISA;
-
-eval { require Perinci::CmdLine; Perinci::CmdLine->VERSION(1.17) };
-if ($@) {
-    require Perinci::CmdLine::Lite;
-    @ISA = qw(Perinci::CmdLine::Lite);
-} else {
-    @ISA = qw(Perinci::CmdLine);
+sub new {
+    my $class = shift;
+    eval { require Perinci::CmdLine; Perinci::CmdLine->VERSION(1.17) };
+    if ($@) {
+        require Perinci::CmdLine::Lite;
+        Perinci::CmdLine::Lite->new(@_);
+    } else {
+        Perinci::CmdLine->new(@_);
+    }
 }
 
 1;
