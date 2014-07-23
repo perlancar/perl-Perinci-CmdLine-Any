@@ -1,5 +1,10 @@
 Revision history for Perinci-CmdLine-Any
 
+0.05     2014-07-23 (SHARYANTO)
+
+         - Add script: peri-run (moved from Perinci-CmdLine).
+
+
 0.04     2014-07-18 (SHARYANTO)
 
          - Introduce PERINCI_CMDLINE_ANY to let you override class to use.
