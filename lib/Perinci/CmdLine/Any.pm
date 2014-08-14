@@ -7,29 +7,52 @@ use 5.010001;
 use strict;
 use warnings;
 
+my %Opts = (
+    -prefer_lite => 0,
+);
+
+sub import {
+    my ($class, %args) = @_;
+    $Opts{$_} = $args{$_} for keys %args;
+}
+
 sub new {
     my $class = shift;
 
     my $pericmd_ver = 1.17;
 
+    my @mods;
     if ($ENV{PERINCI_CMDLINE_ANY}) {
-        my $mod = $ENV{PERINCI_CMDLINE_ANY};
-        my $modpm = $mod; $modpm =~ s!::!/!g; $modpm .= ".pm";
-        require $modpm;
-        if ($mod eq 'Perinci::CmdLine') {
-            Perinci::CmdLine->VERSION($pericmd_ver);
-        }
-        $mod->new(@_);
+        @mods = ($ENV{PERINCI_CMDLINE_ANY});
+    } elsif ($Opts{-prefer_lite}) {
+        @mods = qw(Perinci::CmdLine::Lite Perinci::CmdLine);
     } else {
-        eval {
-            require Perinci::CmdLine;
-            Perinci::CmdLine->VERSION($pericmd_ver);
-        };
-        if ($@) {
-            require Perinci::CmdLine::Lite;
-            Perinci::CmdLine::Lite->new(@_);
+        @mods = qw(Perinci::CmdLine Perinci::CmdLine::Lite);
+    }
+
+    for my $i (1..@mods) {
+        my $mod = $mods[$i-1];
+        my $modpm = $mod; $modpm =~ s!::!/!g; $modpm .= ".pm";
+        if ($i == @mods) {
+            require $modpm;
+            if ($mod eq 'Perinci::CmdLine') {
+                Perinci::CmdLine->VERSION($pericmd_ver);
+            }
+            return $mod->new(@_);
         } else {
-            Perinci::CmdLine->new(@_);
+            my $res;
+            eval {
+                require $modpm;
+                if ($mod eq 'Perinci::CmdLine') {
+                    Perinci::CmdLine->VERSION($pericmd_ver);
+                }
+                $res = $mod->new(@_);
+            };
+            if ($@) {
+                next;
+            } else {
+                return $res;
+            }
         }
     }
 }
@@ -51,9 +74,10 @@ sub new {
 =head1 DESCRIPTION
 
 This module lets you use L<Perinci::CmdLine> if it's available, or
-L<Perinci::CmdLine::Lite> as the fallback. The goal is to reduce dependencies
-(Perinci::CmdLine::Any only depends on the lightweight Perinci::CmdLine::Lite)
-but use the richer Perinci::CmdLine if it's available.
+L<Perinci::CmdLine::Lite> as the fallback. The goal is to reduce dependencies.
+Perinci::CmdLine::Any only depends on the lightweight Perinci::CmdLine::Lite,
+which has +- 20 non-core Perl modules as dependency, while installing
+Perinci::CmdLine will pull +-200 non-core modules.
 
 Note that Perinci::CmdLine::Lite provides only a subset of the
 functionalities/features of Perinci::CmdLine.
@@ -63,6 +87,11 @@ C<PERINCI_CMDLINE_ANY> environment variable, e.g. the command below will choose
 Perinci::CmdLine::Lite even though Perinci::CmdLine is available:
 
  % PERINCI_CMDLINE_ANY=Perinci::CmdLine::Lite yourapp.pl
+
+If you want to prefer to Perinci::CmdLine::Lite (but user will still be able to
+override using C<PERINCI_CMDLINE_ANY>):
+
+ use Perinci::CmdLine::Any -prefer_lite => 1;
 
 
 =head1 ENVIRONMENT
