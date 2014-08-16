@@ -19,7 +19,7 @@ sub import {
 sub new {
     my $class = shift;
 
-    my $pericmd_ver = 1.17;
+    my $pericmd_ver = 1.04;
 
     my @mods;
     if ($ENV{PERINCI_CMDLINE_ANY}) {
