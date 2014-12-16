@@ -164,7 +164,7 @@ if (@ARGV && !@$oscs) {
 $cmd->run;
 
 #ABSTRACT: Run commands (from any Riap function) on the command-line
-#PODNAME: peri-run
+#PODNAME:
 
 =head1 SYNOPSIS
 
