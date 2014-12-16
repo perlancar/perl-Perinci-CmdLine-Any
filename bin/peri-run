@@ -2,13 +2,13 @@
 
 # DATE
 # VERSION
+# NO_PERICMD_SCRIPT
 
 use 5.010;
 use strict;
 use warnings;
 
 use Getopt::Long;
-use Perinci::CmdLine::Any;
 
 my %opts = (
     library => [],
@@ -84,6 +84,7 @@ USAGE
 
 for my $dir (@{ $opts{library} }) { require lib; lib->import($dir) }
 
+require Perinci::CmdLine::Any;
 my $cmd = Perinci::CmdLine::Any->new(
     pass_cmdline_object => $opts{pass_cmdline_object},
 );
