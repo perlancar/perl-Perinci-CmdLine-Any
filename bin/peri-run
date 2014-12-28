@@ -2,23 +2,65 @@
 
 # DATE
 # VERSION
-# NO_PERICMD_SCRIPT
+# NO_PERINCI_CMDLINE_SCRIPT
 
 use 5.010;
 use strict;
 use warnings;
+use Log::Any '$log';
 
-use Getopt::Long;
+use Getopt::Long::Complete qw(GetOptionsWithCompletion);
 
 my %opts = (
     library => [],
     subcommands => [],
     pass_cmdline_object => 0,
 );
-Getopt::Long::Configure('pass_through', 'no_permute');
-GetOptions(
+$Getopt::Long::Complete::opt_permute = 0;
+$Getopt::Long::Complete::opt_pass_through = 1;
+GetOptionsWithCompletion(
+    sub {
+        my %args = @_;
+        #$log->tracef('args=%s', \%args);
+        my $word = $args{word};
+        if ($args{type} eq 'arg' && $args{argpos} == 0) {
+            my $popts = $args{parsed_opts};
+
+            my @scnames;
+            if ($popts && ($popts->{'-s'} || $popts->{'--subcommand'})) {
+                # if user has specified -s (or --subcommand), then we complete
+                # subcommand name in first argument
+                for (
+                    @{ $popts->{'-s'} // [] },
+                    @{ $popts->{'--subcommand'} // [] },
+                ) {
+                    /.+\s(.+)/ and push @scnames, $1;
+                }
+                require Complete::Util;
+                return Complete::Util::complete_array_elem(
+                    word=>$word, array=>\@scnames);
+            } else {
+                # else, we complete Riap URL in the first argument
+                require Complete::Riap;
+                return Complete::Riap::complete_riap_url(
+                    word=>$word, type=>'function',
+                );
+            }
+        } elsif ($args{type} eq 'optval') {
+            my $opt = $args{opt};
+            if ($opt eq '--library' || $opt eq '-I') {
+                require Complete::Module;
+                return Complete::Module::complete_module(word=>$word);
+            }
+        }
+    },
     'library|I=s' => $opts{library},
     'help|h|?' => \$opts{help},
+    'version' => sub {
+        no warnings 'once';
+        say "peri-run version " . ($main::VERSION // 'dev');
+        exit 0;
+    },
     'subcommand|s=s' => $opts{subcommands},
     'pass-cmdline-object|o' => \$opts{pass_cmdline_object},
 );
