@@ -58,11 +58,8 @@ subcommands.
 command (function) arguments.
 
 Examples:
-  List all subcommands (functions) in a module:
-    $me Foo::Bar -l
-
   Show usage for a subcommand (function):
-    $me Foo::Bar func1 --help
+    $me /Foo/Bar/func1 --help
     $me /Foo/Bar/func1 -h
 
   Execute a command and display the result as YAML:
