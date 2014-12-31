@@ -22,8 +22,14 @@ sub new {
     my $pericmd_ver = 1.04;
 
     my @mods;
-    if ($ENV{PERINCI_CMDLINE_ANY}) {
-        @mods = ($ENV{PERINCI_CMDLINE_ANY});
+    my $env = $ENV{PERINCI_CMDLINE_ANY};
+    if ($env) {
+        if ($env eq 'classic') {
+            $env = 'Perinci::CmdLine';
+        } elsif ($env eq 'lite') {
+            $env = 'Perinci::CmdLine::Lite';
+        }
+        @mods = ($env);
     } elsif ($Opts{-prefer_lite}) {
         @mods = qw(Perinci::CmdLine::Lite Perinci::CmdLine);
     } else {
@@ -97,6 +103,8 @@ override using C<PERINCI_CMDLINE_ANY>):
 =head1 ENVIRONMENT
 
 =head2 PERINCI_CMDLINE_ANY => str
+
+Either specify module name, or C<lite> or C<classic>.
 
 
 =head1 SEE ALSO
