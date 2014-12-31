@@ -1,5 +1,10 @@
 Revision history for Perinci-CmdLine-Any
 
+0.08    2014-12-31 (PERLANCAR)
+
+	- Allow 'lite' and 'classic' in PERINCI_CMDLINE_ANY, as shortcut.
+
+
 0.07     2014-12-29 (PERLANCAR)
 
          - Add completion for bin/peri-run.
