@@ -1,5 +1,11 @@
 Revision history for Perinci-CmdLine-Any
 
+0.09    2015-02-06 (PERLANCAR)
+
+	- Adjust to Perinci::CmdLine -> Perinci::CmdLine::Classic, ::Lite
+	  is now the default preferred version.
+
+
 0.08    2014-12-31 (PERLANCAR)
 
 	- Allow 'lite' and 'classic' in PERINCI_CMDLINE_ANY, as shortcut.
