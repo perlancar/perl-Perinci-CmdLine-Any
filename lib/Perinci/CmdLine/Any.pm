@@ -8,7 +8,7 @@ use strict;
 use warnings;
 
 my %Opts = (
-    -prefer_lite => 0,
+    -prefer_lite => 1,
 );
 
 sub import {
@@ -19,21 +19,19 @@ sub import {
 sub new {
     my $class = shift;
 
-    my $pericmd_ver = 1.04;
-
     my @mods;
     my $env = $ENV{PERINCI_CMDLINE_ANY};
     if ($env) {
         if ($env eq 'classic') {
-            $env = 'Perinci::CmdLine';
+            $env = 'Perinci::CmdLine::Classic';
         } elsif ($env eq 'lite') {
             $env = 'Perinci::CmdLine::Lite';
         }
         @mods = ($env);
     } elsif ($Opts{-prefer_lite}) {
-        @mods = qw(Perinci::CmdLine::Lite Perinci::CmdLine);
+        @mods = qw(Perinci::CmdLine::Lite Perinci::CmdLine::Classic);
     } else {
-        @mods = qw(Perinci::CmdLine Perinci::CmdLine::Lite);
+        @mods = qw(Perinci::CmdLine::Classic Perinci::CmdLine::Lite);
     }
 
     for my $i (1..@mods) {
@@ -41,17 +39,11 @@ sub new {
         my $modpm = $mod; $modpm =~ s!::!/!g; $modpm .= ".pm";
         if ($i == @mods) {
             require $modpm;
-            if ($mod eq 'Perinci::CmdLine') {
-                Perinci::CmdLine->VERSION($pericmd_ver);
-            }
             return $mod->new(@_);
         } else {
             my $res;
             eval {
                 require $modpm;
-                if ($mod eq 'Perinci::CmdLine') {
-                    Perinci::CmdLine->VERSION($pericmd_ver);
-                }
                 $res = $mod->new(@_);
             };
             if ($@) {
@@ -64,40 +56,42 @@ sub new {
 }
 
 1;
-# ABSTRACT: Use Perinci::CmdLine, fallback on Perinci::CmdLine::Lite
+# ABSTRACT: Choose Perinci::CmdLine implementation (::Lite or ::Classic)
 
 =for Pod::Coverage ^(new)$
 
 =head1 SYNOPSIS
 
- In your command-line script:
+In your command-line script (this will pick ::Lite first):
 
  #!perl
  use Perinci::CmdLine::Any;
  Perinci::CmdLine::Any->new(url => '/Package/func')->run;
 
+In your command-line script (this will pick ::Classic first, and falls back to
+::Classic):
+
+ #!perl
+ use Perinci::CmdLine::Any -prefer_lite=>0;
+ Perinci::CmdLine::Any->new(url => '/Package/func')->run;
+
 
 =head1 DESCRIPTION
 
-This module lets you use L<Perinci::CmdLine> if it's available, or
-L<Perinci::CmdLine::Lite> as the fallback. The goal is to reduce dependencies.
-Perinci::CmdLine::Any only depends on the lightweight Perinci::CmdLine::Lite,
-which has +- 20 non-core Perl modules as dependency, while installing
-Perinci::CmdLine will pull +-200 non-core modules.
-
-Note that Perinci::CmdLine::Lite provides only a subset of the
-functionalities/features of Perinci::CmdLine.
+This module lets you use L<Perinci::CmdLine::Lite> or
+L<Perinci::CmdLine::Classic>.
 
 If you want to force using a specific class, you can set the
-C<PERINCI_CMDLINE_ANY> environment variable, e.g. the command below will choose
-Perinci::CmdLine::Lite even though Perinci::CmdLine is available:
+C<PERINCI_CMDLINE_ANY> environment variable, e.g. the command below will only
+try to use Perinci::CmdLine::Classic:
 
- % PERINCI_CMDLINE_ANY=Perinci::CmdLine::Lite yourapp.pl
+ % PERINCI_CMDLINE_ANY=Perinci::CmdLine::Classic yourapp.pl
+ % PERINCI_CMDLINE_ANY=classic yourapp.pl
 
-If you want to prefer to Perinci::CmdLine::Lite (but user will still be able to
-override using C<PERINCI_CMDLINE_ANY>):
+If you want to prefer to Perinci::CmdLine::Classic (but user will still be able
+to override using C<PERINCI_CMDLINE_ANY>):
 
- use Perinci::CmdLine::Any -prefer_lite => 1;
+ use Perinci::CmdLine::Any -prefer_lite => 0;
 
 
 =head1 ENVIRONMENT
@@ -109,8 +103,8 @@ Either specify module name, or C<lite> or C<classic>.
 
 =head1 SEE ALSO
 
-L<Perinci::CmdLine>
-
 L<Perinci::CmdLine::Lite>
+
+L<Perinci::CmdLine::Classic>
 
 =cut
