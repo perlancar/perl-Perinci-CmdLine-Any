@@ -69,7 +69,7 @@ In your command-line script (this will pick ::Lite first):
  Perinci::CmdLine::Any->new(url => '/Package/func')->run;
 
 In your command-line script (this will pick ::Classic first, and falls back to
-::Classic):
+::Lite):
 
  #!perl
  use Perinci::CmdLine::Any -prefer_lite=>0;
