@@ -1,5 +1,10 @@
 Revision history for Perinci-CmdLine-Any
 
+0.10    2015-04-12 (PERLANCAR)
+
+	- Split peri-run to App-PerinciUtils.
+
+
 0.09    2015-02-06 (PERLANCAR)
 
 	- Adjust to Perinci::CmdLine -> Perinci::CmdLine::Classic, ::Lite
