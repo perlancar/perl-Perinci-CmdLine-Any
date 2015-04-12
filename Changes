@@ -28,7 +28,8 @@ Revision history for Perinci-CmdLine-Any
 
 0.05     2014-07-23 (SHARYANTO)
 
-         - Add script: peri-run (moved from Perinci-CmdLine).
+         - Add script: peri-run (moved from Perinci-CmdLine). UPDATE 2015-04-12:
+           peri-run now moved to App-PerinciUtils.
 
 
 0.04     2014-07-18 (SHARYANTO)
