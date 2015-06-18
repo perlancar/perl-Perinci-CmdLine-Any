@@ -1,5 +1,12 @@
 Revision history for Perinci-CmdLine-Any
 
+0.11    2015-06-18 (PERLANCAR)
+
+	- No functional changes.
+
+	- [doc] Mention Perinci::CmdLine::Inline.
+
+
 0.10    2015-04-12 (PERLANCAR)
 
 	- Split peri-run to App-PerinciUtils.
