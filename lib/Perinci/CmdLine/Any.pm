@@ -103,8 +103,9 @@ Either specify module name, or C<lite> or C<classic>.
 
 =head1 SEE ALSO
 
-L<Perinci::CmdLine::Lite>
+L<Perinci::CmdLine::Lite>, L<Perinci::CmdLine::Classic>
 
-L<Perinci::CmdLine::Classic>
+Another alternative backend, but not available through Perinci::CmdLine::Any
+since it works by generating script instead: L<Perinci::CmdLine::Inline>
 
 =cut
