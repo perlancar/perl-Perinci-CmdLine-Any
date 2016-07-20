@@ -1,5 +1,13 @@
 Revision history for Perinci-CmdLine-Any
 
+0.13    2016-07-20 (PERLANCAR)
+
+	- No functional changes.
+
+        - [dist] Bump prereq versions to force upgrades: Perinci::CmdLine::Lite
+          to 1.56, Perinci::CmdLine::Classic to 1.71.
+
+
 0.12    2015-09-03 (PERLANCAR)
 
 	- No functional changes.
