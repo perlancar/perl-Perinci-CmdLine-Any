@@ -3,9 +3,10 @@ package Perinci::CmdLine::Any;
 # DATE
 # VERSION
 
-use 5.010001;
+# IFUNBUILT
 use strict;
 use warnings;
+# END IFUNBUILT
 
 my %Opts = (
     -prefer_lite => 1,
