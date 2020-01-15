@@ -68,7 +68,7 @@
          - Add completion for bin/peri-run.
 
 
-0.06     2014-08-16 (SHARYANTO) - Happy 19th CPAN Day!
+0.06     2014-08-16  Released-By: SHARYANTO; Note: Happy 19th CPAN Day!
 
          - Add -prefer_lite.
 
@@ -104,3 +104,4 @@
 0.01     2014-07-16  Released-By: SHARYANTO
 
          - First release.
+
