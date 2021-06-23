@@ -1,3 +1,8 @@
+0.152   2021-06-23  Released-By: PERLANCAR; Urgency: medium
+
+        - Bump prereq version Perinci::CmdLine::Lite -> 1.905.
+
+
 0.151   2019-06-20  Released-By: PERLANCAR
 
 	- No functional changes.
@@ -104,4 +109,3 @@
 0.01     2014-07-16  Released-By: SHARYANTO
 
          - First release.
-
