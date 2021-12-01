@@ -1,12 +1,14 @@
 package Perinci::CmdLine::Any;
 
-# DATE
-# VERSION
-
-# IFUNBUILT
 use strict;
+# IFUNBUILT
 use warnings;
 # END IFUNBUILT
+
+# AUTHORITY
+# DATE
+# DIST
+# VERSION
 
 my %Opts = (
     -prefer_lite => 1,
